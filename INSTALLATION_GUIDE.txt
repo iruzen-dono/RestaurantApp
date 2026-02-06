@@ -1,0 +1,322 @@
+╔═════════════════════════════════════════════════════════════════════════════╗
+║                    GUIDE D'INSTALLATION DE RESTAURANTAPP                    ║
+║                                                                               ║
+║  Application de gestion de restaurant en Java Swing + MySQL                 ║
+╚═════════════════════════════════════════════════════════════════════════════╝
+
+ÉTAPE 1: INSTALLER/VÉRIFIER JAVA
+═════════════════════════════════════════════════════════════════════════════
+
+1.1 Vérifier si Java est installé:
+```
+java -version
+```
+
+Version recommandée: Java 8 ou supérieur ✓ Java 25 est détecté sur votre système
+
+1.2 Si Java n'est pas installé:
+- Télécharger Java SE de: https://www.oracle.com/java/technologies/downloads/
+- Installer Java JDK (pas juste JRE)
+- Redémarrer l'invite de commande après installation
+
+
+ÉTAPE 2: INSTALLER/VÉRIFIER MySQL
+═════════════════════════════════════════════════════════════════════════════
+
+2.1 Vérifier si MySQL est installé:
+```
+mysql --version
+```
+
+⚠️  MySQL N'EST PAS INSTALLÉ sur votre système
+
+2.2 Installer MySQL:
+Windows:
+- Télécharger: https://dev.mysql.com/downloads/mysql/
+- Lancer l'installateur
+- Suivre il wizard (garder les paramètres par défaut)
+- Vérifier que le service MySQL démarre automatiquement
+
+Linux (Ubuntu/Debian):
+```bash
+sudo apt-get install mysql-server
+sudo mysql_secure_installation
+```
+
+macOS:
+```bash
+brew install mysql
+brew services start mysql
+```
+
+2.3 Vérifier que MySQL est en cours d'exécution:
+```
+mysql -u root -p
+```
+(Laisser vide si pas de mot de passe, sinon entrer votre mot de passe)
+
+Si vous êtes connecté → MySQL fonctionne ✓
+Taper `exit` pour quitter
+
+
+ÉTAPE 3: TÉLÉCHARGER LE DRIVER MYSQL JDBC
+═════════════════════════════════════════════════════════════════════════════
+
+3.1 Télécharger MySQL Connector/J:
+- Aller à: https://dev.mysql.com/downloads/connector/j/
+- Sélectionner la dernière version (ex: 8.0.33)
+- Télécharger le JAR (mysql-connector-java-x.x.x.jar)
+- Ou télécharger directement: 
+  https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.33.jar
+
+3.2 Placer le fichier:
+- Créer le dossier RestaurantApp/lib s'il n'existe pas ✓ DÉJÀ CRÉÉ
+- Copier le fichier mysql-connector-java-x.x.x.jar dans RestaurantApp/lib/
+
+Exemple:
+C:\Users\jules\OneDrive\Desktop\RestaurantApp\lib\mysql-connector-java-8.0.33.jar
+
+
+ÉTAPE 4: CRÉER LA BASE DE DONNÉES
+═════════════════════════════════════════════════════════════════════════════
+
+4.1 Ouvrir le terminal/PowerShell en tant qu'administrateur
+
+4.2 Se connecter à MySQL:
+```
+mysql -u root -p
+```
+(Appuyer sur Entrée si pas de mot de passe)
+
+4.3 Exécuter le script SQL:
+```
+source C:\Users\jules\OneDrive\Desktop\RestaurantApp\database\restaurant.sql
+```
+
+OU (si la commande ci-dessus ne fonctionne pas):
+
+Windows PowerShell:
+```
+Get-Content C:\Users\jules\OneDrive\Desktop\RestaurantApp\database\restaurant.sql | mysql -u root -p
+```
+
+Linux/Mac:
+```bash
+mysql -u root -p < ~/Desktop/RestaurantApp/database/restaurant.sql
+```
+
+4.4 Vérifier:
+```
+USE restaurant;
+SHOW TABLES;
+```
+
+Vous devez voir les tables créées:
+- utilisateur
+- categorie
+- produit
+- mouvement_stock
+- commande
+- ligne_commande
+
+Taper `exit` pour quitter MySQL
+
+
+ÉTAPE 5: COMPILER ET EXÉCUTER L'APPLICATION
+═════════════════════════════════════════════════════════════════════════════
+
+OPTION A: Utiliser le script (Recommandé)
+
+Windows:
+1. Ouvrir PowerShell dans le dossier RestaurantApp
+2. Taper: .\run.bat
+3. L'application devrait démarrer
+
+Linux/Mac:
+1. Ouvrir le terminal dans RestaurantApp
+2. Taper: chmod +x run.sh
+3. Taper: ./run.sh
+
+
+OPTION B: Compilation manuelle
+
+Windows PowerShell:
+```
+cd C:\Users\jules\OneDrive\Desktop\RestaurantApp
+
+# Créer le dossier bin
+mkdir bin
+
+# Compiler
+javac -cp "lib/*;src" -d bin `
+  src\Main.java `
+  src\models\*.java `
+  src\dao\*.java `
+  src\ui\frames\*.java `
+  src\ui\panels\*.java `
+  src\utils\*.java
+
+# Exécuter
+java -cp "bin;lib/*" Main
+```
+
+Linux/Mac Bash:
+```bash
+cd ~/Desktop/RestaurantApp
+
+# Créer le dossier bin
+mkdir -p bin
+
+# Compiler
+javac -cp "lib/*:src" -d bin \
+  src/Main.java \
+  src/models/*.java \
+  src/dao/*.java \
+  src/ui/frames/*.java \
+  src/ui/panels/*.java \
+  src/utils/*.java
+
+# Exécuter
+java -cp "bin:lib/*" Main
+```
+
+
+ÉTAPE 6: SE CONNECTER À L'APPLICATION
+═════════════════════════════════════════════════════════════════════════════
+
+Une fenêtre de connexion devrait apparaître.
+
+Identifiants de test:
+- Login: admin
+- Mot de passe: admin123
+
+OU:
+- Login: user
+- Mot de passe: user123
+
+Cliquer sur "Connexion" pour accéder au menu principal.
+
+
+DÉPANNAGE
+═════════════════════════════════════════════════════════════════════════════
+
+PROBLÈME: "Driver MySQL non trouvé"
+SOLUTION:
+- Vérifier que mysql-connector-java-x.x.x.jar est dans RestaurantApp/lib/
+- Le nom du fichier doit être: mysql-connector-java-X.X.X.jar
+- Pas besoin de renommer
+
+PROBLÈME: "Erreur de connexion à la base de données"
+SOLUTION:
+1. Vérifier que MySQL est en cours d'exécution:
+   ```
+   mysql -u root -p
+   ```
+2. Vérifier que la base 'restaurant' existe:
+   ```
+   SHOW DATABASES;
+   ```
+   Vous devez voir 'restaurant' dans la liste
+3. Vérifier les identifiants dans src/utils/DatabaseConnection.java
+
+PROBLÈME: "Compilation error"
+SOLUTION:
+- Assurez-vous que tous les fichiers .java sont présents:
+  src/models/
+  src/dao/
+  src/ui/frames/
+  src/ui/panels/
+  src/utils/
+  src/Main.java
+- Vérifiez les chemins dans les commandes de compilation
+
+PROBLÈME: L'application démarre très lentement
+SOLUTION:
+- C'est normal! Cela peut prendre 10-15 secondes à la première exécution
+- Les exécutions suivantes seront plus rapides
+
+
+CONFIGURER LA BASE DE DONNÉES AVEC AUTHENTIFICATION
+═════════════════════════════════════════════════════════════════════════════
+
+Si vous avez défini un mot de passe MySQL lors de l'installation:
+
+1. Ouvrir src/utils/DatabaseConnection.java
+2. Modifier la ligne:
+   private static final String PASSWORD = "";
+   par:
+   private static final String PASSWORD = "votre_mot_de_passe";
+3. Recompiler et exécuter
+
+
+STRUCTURE DU PROJET
+═════════════════════════════════════════════════════════════════════════════
+
+RestaurantApp/
+├── src/
+│   ├── Main.java                    ← Point d'entrée
+│   ├── models/                      ← Classes modèles
+│   │   ├── Categorie.java
+│   │   ├── Produit.java
+│   │   ├── Commande.java
+│   │   ├── LigneCommande.java
+│   │   ├── MouvementStock.java
+│   │   └── Utilisateur.java
+│   ├── dao/                         ← Data Access Objects
+│   │   ├── IGenericDAO.java
+│   │   ├── CategorieDAO.java
+│   │   ├── ProduitDAO.java
+│   │   ├── CommandeDAO.java
+│   │   ├── LigneCommandeDAO.java
+│   │   ├── MouvementStockDAO.java
+│   │   └── UtilisateurDAO.java
+│   ├── ui/
+│   │   ├── frames/                  ← Fenêtres
+│   │   │   ├── LoginFrame.java
+│   │   │   └── MainFrame.java
+│   │   └── panels/                  ← Panneaux fonctionnels
+│   │       ├── ProduitPanel.java
+│   │       ├── StockPanel.java
+│   │       ├── CommandePanel.java
+│   │       └── StatistiquesPanel.java
+│   └── utils/                       ← Utilitaires
+│       └── DatabaseConnection.java
+├── lib/                             ← Dépendances
+│   └── mysql-connector-java-x.x.x.jar (À télécharger)
+├── database/
+│   └── restaurant.sql               ← Script BD
+├── bin/                             ← Fichiers compilés
+├── run.bat                          ← Script Windows
+├── run.sh                           ← Script Linux/Mac
+└── README.md                        ← Documentation
+
+
+PROCHAINES ÉTAPES APRÈS INSTALLATION
+═════════════════════════════════════════════════════════════════════════════
+
+L'application est maintenant COMPLÈTEMENT FONCTIONNELLE avec:
+✓ Connexion des utilisateurs
+✓ Gestion complète des produits et catégories
+✓ Gestion complète du stock (entrées/sorties)
+✓ Affichage et gestion des commandes
+✓ Validation et annulation des commandes
+✓ Tableau de bord statistiques (4 cartes KPI)
+✓ Navigation fluide entre les panneaux
+✓ Dialogs pour toutes les opérations CRUD
+✓ Validation des saisies utilisateur
+✓ Calcul automatique des totaux
+✓ Protection des données (suppression de catégories seulement si vides)
+
+Fonctionnalités optionnelles pour améliorations:
+□ Graphiques pour visualiser les statistiques
+□ Export des rapports en PDF/Excel
+□ Gestion multi-utilisateurs avancée
+□ Historique complet des modifications
+□ Synchronisation base de données avancée
+
+
+VERSION: 1.0 - Structure initiale
+DERNIÈRE MISE À JOUR: 6 février 2026
+
+
+Pour toute question ou problème, consultez votre instructeur.

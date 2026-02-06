@@ -1,0 +1,149 @@
+╔═════════════════════════════════════════════════════════════════════════════╗
+║                        DÉMARRAGE RAPIDE (5 MINUTES)                         ║
+║                                                                               ║
+║                         RestaurantApp - TP POO JAVA                         ║
+╚═════════════════════════════════════════════════════════════════════════════╝
+
+✓ PRÉREQUIS VÉRIFIÉS:
+═════════════════════════════════════════════════════════════════════════════
+✓ Java 25 JDK/JRE - INSTALLÉ
+✗ MySQL Server - À INSTALLER
+✗ MySQL Connector/J Driver - À TÉLÉCHARGER
+
+
+ÉTAPE 1: Installer MySQL (3 minutes)
+═════════════════════════════════════════════════════════════════════════════
+
+Windows:
+  1. Aller à: https://dev.mysql.com/downloads/mysql/
+  2. Télécharger MySQL Community Server
+  3. Exécuter l'installateur et suivre les instructions
+  4. Note: Garder le port par défaut (3306)
+
+Si vous avez déjà MySQL ✓, passez à l'étape 2
+
+
+ÉTAPE 2: Télécharger MySQL Connector/J (2 minutes)
+═════════════════════════════════════════════════════════════════════════════
+
+1. Télécharger: 
+   https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.33.jar
+
+2. Placer dans:
+   C:\Users\jules\OneDrive\Desktop\RestaurantApp\lib\
+
+   (Le dossier RestaurantApp/lib/ est déjà créé ✓)
+
+
+ÉTAPE 3: Créer la base de données (1 minute)
+═════════════════════════════════════════════════════════════════════════════
+
+1. Ouvrir PowerShell en administrateur
+
+2. Exécuter:
+   mysql -u root -p < C:\Users\jules\OneDrive\Desktop\RestaurantApp\database\restaurant.sql
+
+3. Appuyer sur Entrée (pas de mot de passe si installation standard)
+
+
+ÉTAPE 4: Lancer l'application (30 secondes)
+═════════════════════════════════════════════════════════════════════════════
+
+Option A (Recommandée):
+  → Double-cliquer sur: RestaurantApp\run.bat
+
+Option B (Manuel):
+  → PowerShell dans RestaurantApp:
+    javac -cp "lib/*;src" -d bin src/Main.java src/models/*.java src/dao/*.java src/ui/frames/*.java src/ui/panels/*.java src/utils/*.java
+    java -cp "bin;lib/*" Main
+
+
+SE CONNECTER:
+═════════════════════════════════════════════════════════════════════════════
+
+Login:  admin
+Pass:   admin123
+
+(Ou: user / user123)
+
+
+STRUCTURE CRÉÉE:
+═════════════════════════════════════════════════════════════════════════════
+
+✓ RestaurantApp/ (Dossier principal)
+  ✓ src/ (Code source - 14 fichiers)
+    ✓ Main.java
+    ✓ models/ (6 classes modèles)
+    ✓ dao/ (7 Data Access Objects)
+    ✓ ui/frames/ (2 fenêtres Swing)
+    ✓ ui/panels/ (4 panneaux fonctionnels)
+    ✓ utils/ (1 classe utilitaire)
+  ✓ lib/ (À compléter avec mysql-connector-java)
+  ✓ database/ (Script SQL de 140 lignes)
+  ✓ bin/ (Sera créé à la compilation)
+  ✓ run.bat (Script de lancement)
+  ✓ run.sh (Script Linux/Mac)
+  ✓ README.md (Documentation complète)
+  ✓ INSTALLATION_GUIDE.txt (Guide détaillé)
+  ✓ QUICKSTART.txt (Ce fichier)
+
+
+ARCHITECTURE: Modèle MVC
+═════════════════════════════════════════════════════════════════════════════
+
+Model:
+  • models/ : Entités (Categorie, Produit, Commande, etc.)
+  • dao/ : Accès aux données (CRUD + méthodes spécialisées)
+
+View:
+  • ui/frames/ : Fenêtres principales (LoginFrame, MainFrame)
+  • ui/panels/ : Panneaux fonctionnels (ProduitPanel, etc.)
+
+Controller:
+  • Actions dans les Panels
+  • Event listeners dans les Frames
+
+
+FONCTIONNALITÉS IMPLÉMENTÉES:
+═════════════════════════════════════════════════════════════════════════════
+
+✓ Authentification (login/password avec masquage)
+✓ BDD avec 6 tables relationnelles
+✓ DAOs avec opérations CRUD complètes
+✓ Interface Swing avec onglets
+✓ Classes modèles avec validations
+✓ Affichage des données en tables
+✓ Gestion des exceptions
+✓ Scripts de compilation/exécution
+✓ Dialogs pour ajouter/modifier produits
+✓ Dialogs pour ajouter/modifier catégories
+✓ Validation des champs de saisie
+✓ Dialogs pour mouvements de stock
+✓ Dialogs pour créer/valider commandes
+✓ Extraction du total des commandes
+✓ Statistiques avec 4 cartes KPI (tableau de bord)
+✓ Gestion complète des produits et catégories
+✓ Gestion complète du stock (entrées/sorties)
+✓ Gestion complète des commandes (créer, valider, annuler)
+
+À COMPLÉTER/AMÉLIORATIONS FUTURES:
+═════════════════════════════════════════════════════════════════════════════
+
+□ Graphiques pour statistiques (actuellement: chiffres seulement)
+□ Import/Export de données en CSV/Excel
+□ Gestion des utilisateurs avancée (rôles, permissions)
+□ Historique complet des modifications
+□ Rapports imprimables (PDF)
+□ Optimisation des performances bases de données
+
+
+CONTACT & SUPPORT:
+═════════════════════════════════════════════════════════════════════════════
+
+Voir: INSTALLATION_GUIDE.txt pour le dépannage complet
+Voir: README.md pour la documentation détaillée
+
+
+═════════════════════════════════════════════════════════════════════════════
+                         Bon courage dans votre TP! 🚀
+═════════════════════════════════════════════════════════════════════════════

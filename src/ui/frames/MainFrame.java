@@ -6,6 +6,9 @@ import ui.panels.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.IOException;
+import java.sql.SQLException;
+import utils.ExportUtils;
 
 /**
  * Fenêtre principale avec menu de navigation
@@ -40,8 +43,53 @@ public class MainFrame extends JFrame {
         fileMenu.add(disconnectItem);
         fileMenu.addSeparator();
         fileMenu.add(exitItem);
-        
+        // Menu d'export
+        JMenu exportMenu = new JMenu("Exporter");
+        exportMenu.setForeground(Color.WHITE);
+
+        JMenuItem exportProduits = new JMenuItem("Produits (CSV)");
+        exportProduits.addActionListener(e -> {
+            try {
+                java.nio.file.Files.createDirectories(java.nio.file.Paths.get("exports"));
+                ExportUtils.exportTableToCSV("produit", "exports/produits.csv");
+                JOptionPane.showMessageDialog(this, "Export produits généré: exports/produits.csv");
+            } catch (SQLException | IOException ex) {
+                JOptionPane.showMessageDialog(this, "Erreur export produits: " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Erreur: " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        JMenuItem exportCommandes = new JMenuItem("Commandes (CSV)");
+        exportCommandes.addActionListener(e -> {
+            try {
+                java.nio.file.Files.createDirectories(java.nio.file.Paths.get("exports"));
+                ExportUtils.exportTableToCSV("commande", "exports/commandes.csv");
+                JOptionPane.showMessageDialog(this, "Export commandes généré: exports/commandes.csv");
+            } catch (SQLException | IOException ex) {
+                JOptionPane.showMessageDialog(this, "Erreur export commandes: " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Erreur: " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        JMenuItem exportAll = new JMenuItem("Tout (Produits + Commandes)");
+        exportAll.addActionListener(e -> {
+            try {
+                ExportUtils.exportDefaultExports();
+                JOptionPane.showMessageDialog(this, "Exports générés dans le dossier exports/");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Erreur export: " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        exportMenu.add(exportProduits);
+        exportMenu.add(exportCommandes);
+        exportMenu.addSeparator();
+        exportMenu.add(exportAll);
+
         menuBar.add(fileMenu);
+        menuBar.add(exportMenu);
         setJMenuBar(menuBar);
 
         // Main panel with header

@@ -1,0 +1,159 @@
+src\ui\panels\CommandePanel.java:3: error: package dao does not exist
+import dao.CommandeDAO;
+          ^
+src\ui\panels\CommandePanel.java:4: error: package dao does not exist
+import dao.LigneCommandeDAO;
+          ^
+src\ui\panels\CommandePanel.java:5: error: package dao does not exist
+import dao.ProduitDAO;
+          ^
+src\ui\panels\CommandePanel.java:6: error: package models does not exist
+import models.Commande;
+             ^
+src\ui\panels\CommandePanel.java:7: error: package models does not exist
+import models.LigneCommande;
+             ^
+src\ui\panels\CommandePanel.java:8: error: package models does not exist
+import models.Produit;
+             ^
+src\ui\panels\CommandePanel.java:23: error: cannot find symbol
+    private CommandeDAO commandeDAO;
+            ^
+  symbol:   class CommandeDAO
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:24: error: cannot find symbol
+    private LigneCommandeDAO ligneDAO;
+            ^
+  symbol:   class LigneCommandeDAO
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:25: error: cannot find symbol
+    private ProduitDAO produitDAO;
+            ^
+  symbol:   class ProduitDAO
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:28: error: package ui.frames does not exist
+    private ui.frames.MainFrame mainFrame;
+                     ^
+src\ui\panels\CommandePanel.java:34: error: package ui.frames does not exist
+    public CommandePanel(ui.frames.MainFrame mainFrame) {
+                                  ^
+src\ui\panels\CommandePanel.java:36: error: cannot find symbol
+        commandeDAO = new CommandeDAO();
+                          ^
+  symbol:   class CommandeDAO
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:37: error: cannot find symbol
+        ligneDAO = new LigneCommandeDAO();
+                       ^
+  symbol:   class LigneCommandeDAO
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:38: error: cannot find symbol
+        produitDAO = new ProduitDAO();
+                         ^
+  symbol:   class ProduitDAO
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:122: error: cannot find symbol
+            List<Commande> commandes = commandeDAO.readAll();
+                 ^
+  symbol:   class Commande
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:123: error: cannot find symbol
+            for (Commande c : commandes) {
+                 ^
+  symbol:   class Commande
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:138: error: cannot find symbol
+            Commande commande = new Commande();
+            ^
+  symbol:   class Commande
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:138: error: cannot find symbol
+            Commande commande = new Commande();
+                                    ^
+  symbol:   class Commande
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:140: error: package Commande does not exist
+            commande.setEtat(Commande.EtatCommande.EN_COURS);
+                                     ^
+src\ui\panels\CommandePanel.java:170: error: cannot find symbol
+        JComboBox<Produit> productBox = new JComboBox<>();
+                  ^
+  symbol:   class Produit
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:172: error: cannot find symbol
+            for (Produit p : produitDAO.readAll()) {
+                 ^
+  symbol:   class Produit
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:203: error: cannot find symbol
+                Produit selectedProduct = (Produit) productBox.getSelectedItem();
+                ^
+  symbol:   class Produit
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:203: error: cannot find symbol
+                Produit selectedProduct = (Produit) productBox.getSelectedItem();
+                                           ^
+  symbol:   class Produit
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:211: error: cannot find symbol
+                LigneCommande ligne = new LigneCommande();
+                ^
+  symbol:   class LigneCommande
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:211: error: cannot find symbol
+                LigneCommande ligne = new LigneCommande();
+                                          ^
+  symbol:   class LigneCommande
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:221: error: cannot find symbol
+                Commande commande = commandeDAO.read(commandeId);
+                ^
+  symbol:   class Commande
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:260: error: cannot find symbol
+            Commande commande = commandeDAO.read(id);
+            ^
+  symbol:   class Commande
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:261: error: package Commande does not exist
+            commande.setEtat(Commande.EtatCommande.VALIDEE);
+                                     ^
+src\ui\panels\CommandePanel.java:292: error: cannot find symbol
+                Commande commande = commandeDAO.read(id);
+                ^
+  symbol:   class Commande
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:293: error: package Commande does not exist
+                commande.setEtat(Commande.EtatCommande.ANNULEE);
+                                         ^
+src\ui\panels\CommandePanel.java:325: error: cannot find symbol
+                List<LigneCommande> lignes = ligneDAO.readAll();
+                     ^
+  symbol:   class LigneCommande
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:326: error: cannot find symbol
+                for (LigneCommande ligne : lignes) {
+                     ^
+  symbol:   class LigneCommande
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:332: error: cannot find symbol
+                Commande commande = commandeDAO.read(id);
+                ^
+  symbol:   class Commande
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:355: error: cannot find symbol
+            java.util.List<LigneCommande> lignes = ligneDAO.readByCommande(commandeId);
+                           ^
+  symbol:   class LigneCommande
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:368: error: cannot find symbol
+            for (LigneCommande l : lignes) {
+                 ^
+  symbol:   class LigneCommande
+  location: class CommandePanel
+src\ui\panels\CommandePanel.java:369: error: cannot find symbol
+                Produit p = produitDAO.read(l.getProduitId());
+                ^
+  symbol:   class Produit
+  location: class CommandePanel
+36 errors

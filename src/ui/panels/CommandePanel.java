@@ -24,6 +24,7 @@ public class CommandePanel extends JPanel {
     private LigneCommandeDAO ligneDAO;
     private ProduitDAO produitDAO;
     private JButton newButton, validateButton, cancelButton, addLineButton, deleteButton;
+    private JButton detailsButton;
     private ui.frames.MainFrame mainFrame;
 
     public CommandePanel() {
@@ -79,11 +80,18 @@ public class CommandePanel extends JPanel {
         deleteButton.setFocusPainted(false);
         deleteButton.addActionListener(e -> deleteCommand());
 
+        detailsButton = new JButton("Détails");
+        detailsButton.setBackground(new Color(155, 89, 182));
+        detailsButton.setForeground(Color.WHITE);
+        detailsButton.setFocusPainted(false);
+        detailsButton.addActionListener(e -> showDetails());
+
         topPanel.add(newButton);
         topPanel.add(addLineButton);
         topPanel.add(validateButton);
         topPanel.add(cancelButton);
         topPanel.add(deleteButton);
+        topPanel.add(detailsButton);
         add(topPanel, BorderLayout.NORTH);
 
         // Table
@@ -204,6 +212,8 @@ public class CommandePanel extends JPanel {
                 ligne.setCommandeId(commandeId);
                 ligne.setProduitId(selectedProduct.getId());
                 ligne.setQuantite(quantity);
+                // enregistrer le prix unitaire au moment de l'ajout
+                ligne.setPrixUnitaire(selectedProduct.getPrixVente());
                 
                 ligneDAO.create(ligne);
                 
@@ -329,6 +339,52 @@ public class CommandePanel extends JPanel {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Erreur: " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
             }
+        }
+    }
+
+    private void showDetails() {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Veuillez sélectionner une commande", "Avertissement", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int commandeId = (int) tableModel.getValueAt(selectedRow, 0);
+
+        try {
+            java.util.List<LigneCommande> lignes = ligneDAO.readByCommande(commandeId);
+
+            JDialog dialog = new JDialog((Frame) null, "Détails commande #" + commandeId, true);
+            dialog.setSize(600, 400);
+            dialog.setLocationRelativeTo(this);
+            dialog.setLayout(new BorderLayout());
+
+            DefaultTableModel model = new DefaultTableModel(new String[]{"Produit","Quantité","Prix unitaire (€)","Montant (€)"}, 0) {
+                public boolean isCellEditable(int r, int c) { return false; }
+            };
+            JTable detailsTable = new JTable(model);
+
+            double total = 0.0;
+            for (LigneCommande l : lignes) {
+                Produit p = produitDAO.read(l.getProduitId());
+                String name = p != null ? p.getNom() : "#" + l.getProduitId();
+                double montant = l.getMontantLigne();
+                model.addRow(new Object[]{name, l.getQuantite(), String.format("%.2f", l.getPrixUnitaire()), String.format("%.2f", montant)});
+                total += montant;
+            }
+
+            dialog.add(new JScrollPane(detailsTable), BorderLayout.CENTER);
+
+            JPanel bottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            bottom.add(new JLabel("Total: " + String.format("%.2f €", total)));
+            JButton close = new JButton("Fermer");
+            close.addActionListener(e -> dialog.dispose());
+            bottom.add(close);
+            dialog.add(bottom, BorderLayout.SOUTH);
+
+            dialog.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erreur chargement details: " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

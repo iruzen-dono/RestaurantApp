@@ -124,6 +124,7 @@ public class MainFrame extends JFrame {
         tabbedPane.addTab("Commandes", new CommandePanel(this));
         statistiquesPanel = new StatistiquesPanel();
         tabbedPane.addTab("Statistiques", statistiquesPanel);
+        tabbedPane.addTab("Historique", new ui.panels.HistoriquePanel());
         
         mainPanel.add(tabbedPane, BorderLayout.CENTER);
         add(mainPanel);

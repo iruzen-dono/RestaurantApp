@@ -1,6 +1,7 @@
 package dao;
 
 import models.Produit;
+import utils.AuditUtils;
 import utils.DatabaseConnection;
 
 import java.sql.*;
@@ -34,6 +35,9 @@ public class ProduitDAO implements IGenericDAO<Produit> {
                     produit.setId(generatedKeys.getInt(1));
                 }
             }
+            try {
+                AuditUtils.log("CREATE", "produit", produit.getId(), "system", "nom=" + produit.getNom());
+            } catch (Exception ignore) {}
         }
     }
 
@@ -99,6 +103,9 @@ public class ProduitDAO implements IGenericDAO<Produit> {
             
             pstmt.executeUpdate();
         }
+        try {
+            AuditUtils.log("UPDATE", "produit", produit.getId(), "system", "nom=" + produit.getNom());
+        } catch (Exception ignore) {}
     }
 
     @Override
@@ -110,6 +117,9 @@ public class ProduitDAO implements IGenericDAO<Produit> {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         }
+        try {
+            AuditUtils.log("DELETE", "produit", id, "system", null);
+        } catch (Exception ignore) {}
     }
 
     /**

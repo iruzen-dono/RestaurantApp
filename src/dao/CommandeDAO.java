@@ -7,6 +7,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import utils.AuditUtils;
 
 /**
  * DAO pour la gestion des commandes
@@ -28,6 +29,7 @@ public class CommandeDAO implements IGenericDAO<Commande> {
                     commande.setId(generatedKeys.getInt(1));
                 }
             }
+            try { AuditUtils.log("CREATE", "commande", commande.getId(), "system", "total="+commande.getTotal()); } catch (Exception ignore) {}
         }
     }
 
@@ -81,6 +83,7 @@ public class CommandeDAO implements IGenericDAO<Commande> {
             pstmt.setInt(4, commande.getId());
             pstmt.executeUpdate();
         }
+        try { AuditUtils.log("UPDATE", "commande", commande.getId(), "system", "total="+commande.getTotal()); } catch (Exception ignore) {}
     }
 
     @Override
@@ -91,6 +94,7 @@ public class CommandeDAO implements IGenericDAO<Commande> {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         }
+        try { AuditUtils.log("DELETE", "commande", id, "system", null); } catch (Exception ignore) {}
     }
 
     /**

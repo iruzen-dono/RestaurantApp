@@ -4,18 +4,15 @@
 RestaurantApp est une application de bureau développée en **Java SE** avec une interface graphique en **Java Swing**. Elle permet de gérer les stocks, les commandes, et les statistiques d'un restaurant, snack ou fast-food.
 
 ## Fonctionnalités principales
-- ✅ Gestion des produits et catégories
-- ✅ Gestion du stock (entrées/sorties)
-- ✅ Gestion des commandes clients
-- ✅ Statistiques et rapports
-- ✅ Authentification utilisateur
+- Gestion des produits et catégories
+- Gestion du stock (entrées/sorties)
+- Gestion des commandes clients
+- Statistiques et rapports
+- Authentification utilisateur
 
 ## Prérequis
 
 ### 1. Java SE (version 8 ou supérieure)
-```bash
-java -version
-```
 
 ### 2. MySQL Server
 - Télécharger depuis: https://www.mysql.com/downloads/
@@ -23,8 +20,6 @@ java -version
 - Créer un compte utilisateur (si nécessaire)
 
 ### 3. MySQL Connector/J (Driver JDBC)
-- Télécharger: https://dev.mysql.com/downloads/connector/j/
-- Placer le fichier `mysql-connector-java-x.x.x.jar` dans le dossier `lib/`
 
 ## Installation et Configuration
 
@@ -123,15 +118,14 @@ Des catégories et produits sont créés automatiquement lors de l'exécution du
 ## Utilisation de l'application
 
 ### 1. Connexion
-- Entrer vos identifiants (login/mot de passe)
-- Cliquer sur "Connexion"
+Entrer vos identifiants (login/mot de passe) et cliquer sur "Connexion"
 
 ### 2. Menu principal
 Une fois connecté, vous accédez à 4 onglets:
-- **Produits**: Gérer les produits et catégories
-- **Stock**: Enregistrer entrées/sorties de stock
-- **Commandes**: Créer et gérer les commandes
-- **Statistiques**: Consulter les rapports
+- Produits: Gérer les produits et catégories
+- Stock: Enregistrer entrées/sorties de stock
+- Commandes: Créer et gérer les commandes
+- Statistiques: Consulter les rapports
 
 ### 3. Gestion des produits
 - Ajouter un produit
@@ -153,45 +147,45 @@ Une fois connecté, vous accédez à 4 onglets:
 ## Règles de gestion implémentées
 
 ### Produits
-- ✓ Le libellé de catégorie doit être unique
-- ✓ Le prix de vente doit être strictement positif
-- ✓ Le stock ne peut pas être négatif
+- Le libellé de catégorie doit être unique
+- Le prix de vente doit être strictement positif
+- Le stock ne peut pas être négatif
 
 ### Stock
-- ✓ Quantité de mouvement > 0
-- ✓ Interdire une sortie si la quantité dépasse le stock
+- Quantité de mouvement > 0
+- Interdire une sortie si la quantité dépasse le stock
 
 ### Commandes
-- ✓ Au moins une ligne pour valider
-- ✓ Calcul automatique du total
+- Au moins une ligne pour valider
+- Calcul automatique du total
 
 ## Dépannage
 
 ### "Driver MySQL non trouvé"
-→ Assurez-vous que `mysql-connector-java-x.x.x.jar` est dans `lib/`
+→ Assurez-vous que mysql-connector-java-x.x.x.jar est dans lib/
 
-### "Erreur de connexion à la base de données"
+"Erreur de connexion à la base de données"
 → Vérifiez que:
-- MySQL est en cours d'exécution
-- Les identifiants dans DatabaseConnection.java sont corrects
-- La base de données 'restaurant' existe
+  - MySQL est en cours d'exécution
+  - Les identifiants dans DatabaseConnection.java sont corrects
+  - La base de données 'restaurant' existe
 
-### L'application démarre lentement
+L'application démarre lentement
 → C'est normal à la première exécution (chargement des drivers et compilation à chaud)
 
 ## Améliorations futures
-- [x] Implémentation complète des dialogs d'ajout/modification
-- [x] Validation côté application plus avancée
-- [x] Gestion complète des produits et catégories
-- [x] Gestion complète du stock
-- [x] Gestion complète des commandes
-- [x] Tableau de bord statistiques avec 4 KPI
-- [ ] Graphiques pour les statistiques (courbes, camemberts)
-- [ ] Export en PDF des rapports
-- [ ] Gestion multi-utilisateurs avancée (rôles, permissions)
-- [ ] Sauvegarde/restauration fichiers de configuration
-- [ ] Import/Export de données en CSV/Excel
-- [ ] Historique complet des modifications
+- Implémentation complète des dialogs d'ajout/modification
+- Validation côté application plus avancée
+- Gestion complète des produits et catégories
+- Gestion complète du stock
+- Gestion complète des commandes
+- Tableau de bord statistiques avec 4 KPI
+- Graphiques pour les statistiques (courbes, camemberts)
+- Export en PDF des rapports
+- Gestion multi-utilisateurs avancée (rôles, permissions)
+- Sauvegarde/restauration fichiers de configuration
+- Import/Export de données en CSV/Excel
+- Historique complet des modifications
 
 ## Licence
 Travaux pratiques - Université

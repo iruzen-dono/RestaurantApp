@@ -1,12 +1,11 @@
 @echo off
 REM Script de compilation et execution de RestaurantApp
-REM Pour Windows PowerShell
 
 setlocal enabledelayedexpansion
 
 echo.
 echo ========================================
-echo    RestaurantApp - Script de Debug
+echo    RestaurantApp - Script de Lancement
 echo ========================================
 echo.
 
@@ -20,7 +19,7 @@ if errorlevel 1 (
 
 REM Creer le dossier bin s'il n'existe pas
 if not exist "bin" (
-    echo Creer le dossier bin...
+    echo Creation du dossier bin...
     mkdir bin
 )
 
@@ -53,5 +52,3 @@ echo.
 echo Demarrage de RestaurantApp...
 echo.
 java -cp "bin;lib/*" Main
-
-pause

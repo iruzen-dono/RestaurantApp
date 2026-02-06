@@ -128,6 +128,36 @@ private static final String PASSWORD = "0000";  // ← Votre mot de passe
 
 ---
 
+## 📥 Export & utilitaires
+
+- **Export CSV**: un menu `Exporter` est disponible dans la barre de menu (Produits, Commandes, Tout). Les exports sont écrits dans le dossier `exports/` du projet.
+- **Utilitaires** (dans `src/utils`):
+   - `RunExport` : lance `ExportUtils.exportDefaultExports()` et génère `exports/produits.csv` et `exports/commandes.csv` sans ouvrir l'UI.
+   - `CheckHistorique` : affiche les 20 dernières lignes de la table `historique` pour debug.
+   - `CheckLignes` : affiche les lignes de `ligne_commande` (utile pour diagnostiquer totaux).
+   - `FixLignes` : met à jour les lignes existantes où `prix_unitaire` est 0 en copiant `produit.prix_vente` et recalculant `montant_ligne`.
+
+Exécution rapide (Windows):
+```powershell
+java -cp "bin;lib/*" utils.RunExport
+java -cp "bin;lib/*" utils.CheckHistorique
+java -cp "bin;lib/*" utils.FixLignes
+```
+
+## 🛡️ Historique / Audit
+
+Une table `historique` est maintenant utilisée pour enregistrer les actions importantes (CREATE/UPDATE/DELETE) sur les entités critiques : `produit`, `commande`, `ligne_commande`, `mouvement_stock`, etc. Le format contient : `action`, `table_name`, `record_id`, `user`, `details`, `created_at`.
+
+Points importants:
+- La table est créée automatiquement par `AuditUtils.ensureTableExists()` la première fois qu'un log ou une lecture est effectué.
+- Les opérations CRUD sur les DAOs principaux appellent maintenant `AuditUtils.log(...)` pour conserver l'historique.
+- Par défaut, l'utilisateur enregistré est `system` ; pour enregistrer le login réel, propager l'objet `Utilisateur` courant vers les DAO ou utiliser un `ThreadLocal` (voir `GUIDE_MODIFICATIONS.md` pour une approche).
+
+## 🔧 Correction des totaux des commandes (legacy)
+
+Si vous voyez des montants `0.00` dans les détails d'une commande, cela vient parfois de lignes où `prix_unitaire` n'avait pas été enregistré (valeur 0). Utilisez `FixLignes` pour corriger la base : il copiera `produit.prix_vente` dans `ligne_commande.prix_unitaire` et recalculera `montant_ligne`.
+
+
 ## 🚀 Compilation et Exécution
 
 ### Compiler:

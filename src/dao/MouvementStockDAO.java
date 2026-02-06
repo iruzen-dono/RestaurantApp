@@ -7,6 +7,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import utils.AuditUtils;
 
 /**
  * DAO pour la gestion des mouvements de stock
@@ -30,6 +31,7 @@ public class MouvementStockDAO implements IGenericDAO<MouvementStock> {
                     mouvement.setId(generatedKeys.getInt(1));
                 }
             }
+            try { AuditUtils.log("CREATE", "mouvement_stock", mouvement.getId(), "system", "prod="+mouvement.getProduitId()+" type="+mouvement.getType()); } catch (Exception ignore) {}
         }
     }
 
@@ -89,6 +91,7 @@ public class MouvementStockDAO implements IGenericDAO<MouvementStock> {
             pstmt.setInt(6, mouvement.getId());
             pstmt.executeUpdate();
         }
+        try { AuditUtils.log("UPDATE", "mouvement_stock", mouvement.getId(), "system", "prod="+mouvement.getProduitId()+" type="+mouvement.getType()); } catch (Exception ignore) {}
     }
 
     @Override
@@ -99,6 +102,7 @@ public class MouvementStockDAO implements IGenericDAO<MouvementStock> {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         }
+        try { AuditUtils.log("DELETE", "mouvement_stock", id, "system", null); } catch (Exception ignore) {}
     }
 
     /**

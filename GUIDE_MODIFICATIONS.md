@@ -399,6 +399,46 @@ p.setPrixVente(3.50);
 // Enregistrer en BD
 dao.update(p);
 
+---
+
+## 📝 Audit / Historique & utilitaires
+
+### Enregistrer le nom d'utilisateur dans l'historique
+Par défaut les logs écrivent `user = "system"`. Deux approches pour enregistrer le login réel:
+
+- Propager le `Utilisateur` courant aux DAO (ex: passer `mainFrame.getUtilisateur()` ou fournir un service qui connaît l'utilisateur) et utiliser `AuditUtils.log(..., utilisateur.getLogin(), ...)`.
+
+- Utiliser un `ThreadLocal<String>` pour stocker le `currentUser` lors de l'ouverture de session. Exemple (simplifié):
+
+```java
+// utils/UserContext.java
+public class UserContext {
+    private static final ThreadLocal<String> current = new ThreadLocal<>();
+    public static void set(String login) { current.set(login); }
+    public static String get() { return current.get(); }
+}
+
+// Lors de la connexion réussie
+UserContext.set(utilisateur.getLogin());
+
+// Dans AuditUtils.log utiliser UserContext.get() au lieu de "system"
+```
+
+### Fixer les totaux de `ligne_commande`
+Si certaines lignes ont `prix_unitaire == 0`, exécutez l'utilitaire `FixLignes` fourni (`src/utils/FixLignes.java`) pour mettre à jour les lignes en copiant `produit.prix_vente`. Exemple d'exécution:
+
+```powershell
+java -cp "bin;lib/*" utils.FixLignes
+```
+
+### Vérifier l'historique
+Pour afficher rapidement les dernières entrées d'historique sans ouvrir l'UI utilisez `CheckHistorique`:
+
+```powershell
+java -cp "bin;lib/*" utils.CheckHistorique
+```
+
+
 System.out.println("Nouveau prix: " + p.getPrixVente());
 ```
 

@@ -6,6 +6,7 @@ import utils.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import utils.AuditUtils;
 
 /**
  * DAO pour la gestion des lignes de commande
@@ -29,6 +30,7 @@ public class LigneCommandeDAO implements IGenericDAO<LigneCommande> {
                     ligne.setId(generatedKeys.getInt(1));
                 }
             }
+            try { AuditUtils.log("CREATE", "ligne_commande", ligne.getId(), "system", "cmd="+ligne.getCommandeId()+" prod="+ligne.getProduitId()); } catch (Exception ignore) {}
         }
     }
 
@@ -86,6 +88,7 @@ public class LigneCommandeDAO implements IGenericDAO<LigneCommande> {
             pstmt.setInt(6, ligne.getId());
             pstmt.executeUpdate();
         }
+        try { AuditUtils.log("UPDATE", "ligne_commande", ligne.getId(), "system", "cmd="+ligne.getCommandeId()+" prod="+ligne.getProduitId()); } catch (Exception ignore) {}
     }
 
     @Override
@@ -96,6 +99,7 @@ public class LigneCommandeDAO implements IGenericDAO<LigneCommande> {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         }
+        try { AuditUtils.log("DELETE", "ligne_commande", id, "system", null); } catch (Exception ignore) {}
     }
 
     /**
@@ -132,5 +136,6 @@ public class LigneCommandeDAO implements IGenericDAO<LigneCommande> {
             pstmt.setInt(1, commandeId);
             pstmt.executeUpdate();
         }
+        try { AuditUtils.log("DELETE", "ligne_commande", null, "system", "deleteByCommande="+commandeId); } catch (Exception ignore) {}
     }
 }

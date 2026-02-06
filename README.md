@@ -9,6 +9,8 @@ RestaurantApp est une application de bureau développée en **Java SE** avec une
 - Gestion des commandes clients
 - Statistiques et rapports
 - Authentification utilisateur
+ - Export CSV des tables (Produits / Commandes)
+ - Historique (audit) des modifications (création/modification/suppression)
 
 ## Prérequis
 
@@ -54,6 +56,16 @@ javac -cp lib/*:src -d bin src/**/*.java
 ### Étape 4: Exécuter l'application
 ```bash
 java -cp bin:lib/* Main
+```
+
+Ou utiliser les utilitaires fournis dans `src/utils` :
+- `utils.RunExport` : génère `exports/produits.csv` et `exports/commandes.csv` sans ouvrir l'UI.
+- `utils.FixLignes` : met à jour les lignes de commandes existantes pour remplir `prix_unitaire`/`montant_ligne` si vide (utile après import/anciennes données).
+
+Exemples (Windows PowerShell / cmd):
+```powershell
+java -cp "bin;lib/*" utils.RunExport
+java -cp "bin;lib/*" utils.FixLignes
 ```
 
 ## Structure du projet

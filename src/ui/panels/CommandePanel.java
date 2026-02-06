@@ -368,8 +368,16 @@ public class CommandePanel extends JPanel {
             for (LigneCommande l : lignes) {
                 Produit p = produitDAO.read(l.getProduitId());
                 String name = p != null ? p.getNom() : "#" + l.getProduitId();
+                double pu = l.getPrixUnitaire();
+                if (pu == 0.0 && p != null) {
+                    // fallback to current product price when stored unit price is missing
+                    pu = p.getPrixVente();
+                }
                 double montant = l.getMontantLigne();
-                model.addRow(new Object[]{name, l.getQuantite(), String.format("%.2f", l.getPrixUnitaire()), String.format("%.2f", montant)});
+                if (montant == 0.0) {
+                    montant = pu * l.getQuantite();
+                }
+                model.addRow(new Object[]{name, l.getQuantite(), String.format("%.2f", pu), String.format("%.2f", montant)});
                 total += montant;
             }
 

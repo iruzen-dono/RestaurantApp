@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr"
+      th:replace="~{fragments/layout :: layout(title='Commandes', activeSidebar='orders', content=~{::main})}">
+<body>
+<main>
+<div class="page-header">
+    <h4><i class="bi bi-receipt me-2"></i>Gestion des commandes</h4>
+</div>
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>Client</th>
+                        <th>Total</th>
+                        <th>Statut</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="cmd : ${commandes}">
+                        <td class="fw-medium" th:text="${cmd.id}">1</td>
+                        <td th:text="${#temporals.format(cmd.dateCommande, 'dd/MM/yyyy')}">01/01/2025</td>
+                        <td th:text="${cmd.user?.login}">client</td>
+                        <td th:text="'€' + ${#numbers.formatDecimal(cmd.total, 1, 2)}">€0.00</td>
+                        <td>
+                            <span class="badge"
+                                  th:classappend="${cmd.etat == 'VALIDEE'} ? 'bg-success' : ${cmd.etat == 'EN_COURS'} ? 'bg-warning' : 'bg-danger'"
+                                  th:text="${cmd.etat == 'VALIDEE'} ? 'Validée' : ${cmd.etat == 'EN_COURS'} ? 'En cours' : 'Annulée'}">En cours</span>
+                        </td>
+                        <td class="text-end">
+                            <a th:href="@{/dashboard/orders/{id}(id=${cmd.id})}" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(commandes)}">
+                        <td colspan="6" class="empty-state">
+                            <i class="bi bi-inbox"></i>Aucune commande
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</main>
+</body>
+</html>

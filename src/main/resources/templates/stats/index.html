@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr"
+      th:replace="~{fragments/layout :: layout(title='Statistiques', activeSidebar='stats', content=~{::main})}">
+<body>
+<main>
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-bar-chart me-2"></i>Récapitulatif</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="p-3 bg-primary bg-opacity-10 rounded-3 text-center">
+                            <h3 class="text-primary fw-bold mb-0" th:text="${statsTotalProduits}">0</h3>
+                            <small class="text-muted">Produits</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-success bg-opacity-10 rounded-3 text-center">
+                            <h3 class="text-success fw-bold mb-0" th:text="${statsTotalCommandes}">0</h3>
+                            <small class="text-muted">Commandes</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-warning bg-opacity-10 rounded-3 text-center">
+                            <h3 class="text-warning fw-bold mb-0" th:text="${statsStockTotal}">0</h3>
+                            <small class="text-muted">Stock total</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-info bg-opacity-10 rounded-3 text-center">
+                            <h3 class="text-info fw-bold mb-0">€<span th:text="${#numbers.formatDecimal(statsCA, 1, 2)}">0</span></h3>
+                            <small class="text-muted">Chiffre d'affaires</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-download me-2"></i>Export</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a th:href="@{/dashboard/export/products}" class="btn btn-outline-primary">
+                        <i class="bi bi-file-earmark-spreadsheet me-2"></i>Exporter les produits en CSV
+                    </a>
+                    <a th:href="@{/dashboard/export/orders}" class="btn btn-outline-success">
+                        <i class="bi bi-file-earmark-spreadsheet me-2"></i>Exporter les commandes en CSV
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+</body>
+</html>

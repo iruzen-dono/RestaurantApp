@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr"
+      th:replace="~{fragments/layout :: layout(title=${categorie != null ? 'Modifier catégorie' : 'Nouvelle catégorie'}, activeSidebar='categories', content=~{::main})}">
+<body>
+<main>
+<div class="page-header">
+    <h4><i class="bi bi-tags-fill me-2"></i><span th:text="${categorie != null} ? 'Modifier la catégorie' : 'Nouvelle catégorie'">Nouvelle catégorie</span></h4>
+</div>
+<div class="card">
+    <div class="card-body">
+        <form th:action="@{/dashboard/categories/save}" method="POST">
+            <input type="hidden" name="id" th:value="${categorie?.id}">
+            <div class="mb-3">
+                <label class="form-label">Libellé</label>
+                <input type="text" name="libelle" class="form-control" th:value="${categorie?.libelle}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control" rows="3" th:text="${categorie?.description}"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary px-4"><i class="bi bi-check-lg me-1"></i>Enregistrer</button>
+            <a th:href="@{/dashboard/categories}" class="btn btn-outline-secondary px-4 ms-2">Annuler</a>
+        </form>
+    </div>
+</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr"
+      th:replace="~{fragments/layout :: layout(title='Dashboard', activeSidebar='dashboard', content=~{::main})}">
+<body>
+<main>
+    <div class="container-fluid px-0">
+        <!-- Stats Cards with Gradients -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="stat-card stat-gradient-purple">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-label">Produits</div>
+                                <div class="stat-value mt-1" th:text="${produitsCount}">0</div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="bi bi-box-seam-fill"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2 small opacity-75">
+                            <i class="bi bi-box me-1"></i>En catalogue
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card stat-gradient-green">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-label">Commandes</div>
+                                <div class="stat-value mt-1" th:text="${commandesCount}">0</div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="bi bi-receipt"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2 small opacity-75">
+                            <i class="bi bi-clock me-1"></i>Total enregistrées
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card stat-gradient-orange">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-label">Stock alerte</div>
+                                <div class="stat-value mt-1" th:text="${stockAlerteCount}">0</div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="bi bi-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2 small opacity-75">
+                            <i class="bi bi-arrow-up me-1"></i>Produits sous seuil
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card stat-gradient-blue">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-label">Chiffre d'affaires</div>
+                                <div class="stat-value mt-1" th:text="'€' + ${#numbers.formatDecimal(caTotal, 1, 2)}">€0</div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="bi bi-currency-euro"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2 small opacity-75">
+                            <i class="bi bi-graph-up me-1"></i>CA total
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tables Row -->
+        <div class="row g-4">
+            <!-- Dernières commandes -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-clock-history me-2 text-primary"></i>Dernières commandes</span>
+                        <a th:href="@{/dashboard/orders}" class="btn btn-sm btn-outline-primary">Voir tout</a>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Date</th>
+                                        <th>Total</th>
+                                        <th>Statut</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="cmd : ${dernieresCommandes}">
+                                        <td class="fw-medium" th:text="${cmd.id}">1</td>
+                                        <td th:text="${#temporals.format(cmd.dateCommande, 'dd/MM/yyyy')}">01/01/2025</td>
+                                        <td th:text="'€' + ${#numbers.formatDecimal(cmd.total, 1, 2)}">€0.00</td>
+                                        <td>
+                                            <span class="badge"
+                                                  th:classappend="${cmd.etat == 'VALIDEE'} ? 'bg-success' : ${cmd.etat == 'EN_COURS'} ? 'bg-warning' : 'bg-danger'"
+                                                  th:text="${cmd.etat == 'VALIDEE'} ? 'Validée' : ${cmd.etat == 'EN_COURS'} ? 'En cours' : 'Annulée'">En cours</span>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${#lists.isEmpty(dernieresCommandes)}">
+                                        <td colspan="4" class="empty-state">
+                                            <i class="bi bi-inbox"></i>Aucune commande
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stock bas -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-exclamation-triangle me-2 text-warning"></i>Stock bas</span>
+                        <a th:href="@{/dashboard/stock}" class="btn btn-sm btn-outline-primary">Gérer</a>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Produit</th>
+                                        <th>Stock</th>
+                                        <th>Seuil</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="p : ${produitsAlerte}">
+                                        <td class="fw-medium" th:text="${p.nom}">Produit</td>
+                                        <td>
+                                            <span class="badge bg-danger" th:text="${p.stockActuel}">0</span>
+                                        </td>
+                                        <td th:text="${p.seuilAlerte}">5</td>
+                                        <td>
+                                            <a th:href="@{/dashboard/stock}" class="btn btn-sm btn-outline-warning">
+                                                <i class="bi bi-arrow-up-circle me-1"></i>Réapprovisionner
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${#lists.isEmpty(produitsAlerte)}">
+                                        <td colspan="4" class="empty-state">
+                                            <i class="bi bi-check-circle text-success"></i>Tout est en stock
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

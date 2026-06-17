@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr"
+      th:replace="~{fragments/layout :: layout(title='Stock', activeSidebar='stock', content=~{::main})}">
+<body>
+<main>
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-plus-circle text-success me-2"></i>Entrée de stock</h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/dashboard/stock/entry}" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Produit</label>
+                        <select name="productId" class="form-select" required>
+                            <option value="">Sélectionner...</option>
+                            <option th:each="p : ${produits}" th:value="${p.id}" th:text="${p.nom} + ' (stock: ' + ${p.stockActuel} + ')'"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Quantité</label>
+                        <input type="number" name="quantite" min="1" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Motif</label>
+                        <input type="text" name="motif" class="form-control" placeholder="Ex: Réapprovisionnement fournisseur">
+                    </div>
+                    <button type="submit" class="btn btn-success"><i class="bi bi-plus-lg me-1"></i>Ajouter au stock</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-dash-circle text-danger me-2"></i>Sortie de stock</h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/dashboard/stock/exit}" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Produit</label>
+                        <select name="productId" class="form-select" required>
+                            <option value="">Sélectionner...</option>
+                            <option th:each="p : ${produits}" th:value="${p.id}" th:text="${p.nom} + ' (stock: ' + ${p.stockActuel} + ')'"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Quantité</label>
+                        <input type="number" name="quantite" min="1" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Motif</label>
+                        <input type="text" name="motif" class="form-control" placeholder="Ex: Perte, casse, usage interne">
+                    </div>
+                    <button type="submit" class="btn btn-danger"><i class="bi bi-dash-lg me-1"></i>Retirer du stock</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Historique des mouvements</h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr><th>Date</th><th>Produit</th><th>Type</th><th>Quantité</th><th>Motif</th><th>Utilisateur</th></tr>
+                </thead>
+                <tbody>
+                    <tr th:each="m : ${mouvements}">
+                        <td th:text="${#temporals.format(m.dateMouvement, 'dd/MM/yyyy')}">01/01/2025</td>
+                        <td class="fw-medium" th:text="${m.product?.nom}">Produit</td>
+                        <td>
+                            <span class="badge" th:classappend="${m.type == 'ENTREE'} ? 'bg-success' : 'bg-danger'"
+                                  th:text="${m.type == 'ENTREE'} ? 'Entrée' : 'Sortie'">ENTREE</span>
+                        </td>
+                        <td class="fw-bold" th:text="${m.quantite}">0</td>
+                        <td th:text="${m.motif}">-</td>
+                        <td th:text="${m.user?.login ?? 'system'}">admin</td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(mouvements)}">
+                        <td colspan="6" class="empty-state">
+                            <i class="bi bi-inbox"></i>Aucun mouvement
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</main>
+</body>
+</html>

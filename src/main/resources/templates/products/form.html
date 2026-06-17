@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr"
+      th:replace="~{fragments/layout :: layout(title= ${produit != null ? 'Modifier produit' : 'Nouveau produit'}, activeSidebar='products', content=~{::main})}">
+<body>
+<main>
+<div class="page-header">
+    <h4><i class="bi bi-box-seam-fill me-2"></i><span th:text="${produit != null} ? 'Modifier le produit' : 'Nouveau produit'">Nouveau produit</span></h4>
+</div>
+<div class="card">
+    <div class="card-body">
+        <form th:action="@{/dashboard/products/save}" method="POST" th:object="${produit != null ? produit : newProduit}">
+            <input type="hidden" name="id" th:value="${produit?.id}">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Nom du produit</label>
+                    <input type="text" name="nom" class="form-control" th:value="${produit?.nom}" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Catégorie</label>
+                    <select name="categoryId" class="form-select" required>
+                        <option value="">Sélectionner...</option>
+                        <option th:each="cat : ${categories}"
+                                th:value="${cat.id}"
+                                th:text="${cat.libelle}"
+                                th:selected="${produit?.category?.id == cat.id}"></option>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">Description</label>
+                    <textarea name="description" class="form-control" rows="3" th:text="${produit?.description}"></textarea>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Prix de vente (€)</label>
+                    <input type="number" name="prixVente" step="0.01" min="0" class="form-control"
+                           th:value="${produit?.prixVente}" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Stock actuel</label>
+                    <input type="number" name="stockActuel" min="0" class="form-control"
+                           th:value="${produit?.stockActuel ?? 0}" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Seuil d'alerte</label>
+                    <input type="number" name="seuilAlerte" min="0" class="form-control"
+                           th:value="${produit?.seuilAlerte ?? 5}">
+                </div>
+                <div class="col-12">
+                    <div class="form-check">
+                        <input type="checkbox" name="isActive" class="form-check-input" value="true"
+                               th:checked="${produit?.isActive ?? true}">
+                        <label class="form-check-label">Produit actif</label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <hr>
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="bi bi-check-lg me-1"></i>Enregistrer
+                    </button>
+                    <a th:href="@{/dashboard/products}" class="btn btn-outline-secondary px-4 ms-2">Annuler</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</main>
+</body>
+</html>
